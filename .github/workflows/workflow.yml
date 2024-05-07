@@ -93,5 +93,3 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-          tag_name: ${{ github.run_number }}
-          tag_message: 'Deployment ${{ github.ref_name }}'
