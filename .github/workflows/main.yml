@@ -27,16 +27,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: npm
-      #    cache-dependency-path: ./package-lock.json
-
-      - name: Run Install
-        run: npm install
-
-      # - name: Run tests
-      #   run: npm test
-
-      - name: Build application
-        run: npm run build
+      #- run: npm test
+      - run: npm run build
 
       # - name: Create release artifact
       #   run: |
