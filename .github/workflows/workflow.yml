@@ -9,11 +9,10 @@ on:
       - main
 
 jobs:
-
   sonarcloud:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
         with:
           # Disabling shallow clone is recommended for improving relevancy of reporting
           fetch-depth: 0
@@ -24,6 +23,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   build:
+    needs: sonarcloud
+
     runs-on: ubuntu-latest
 
     steps:
@@ -55,8 +56,13 @@ jobs:
       - name: Build application
         run: npm run build
 
-      # - name: Create release artifact
-      #   run: |
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Deploy para ambiente de testes
         uses: peaceiris/actions-gh-pages@v3
