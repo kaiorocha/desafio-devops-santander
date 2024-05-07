@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -47,13 +47,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install Dependencies
+      - name: Instalando dependências do app
         run: npm i
 
-      # - name: Run tests
-      #   run: npm test
+      - name: Testando app
+        run: npm test
 
-      - name: Build application
+      - name: Criando Build do app
         run: npm run build
 
   deploy:
@@ -64,7 +64,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy para ambiente de testes
+      - name: Deploy para ambiente de testes (GitHub Pages)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
