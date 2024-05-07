@@ -67,18 +67,42 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: upload linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./desafio-santander.tar.gz
+            asset_name: desafio-santander-${{ github.run_number }}.tar.gz
+            asset_content_type: application/gzip
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Deploy para ambiente de testes (GitHub Pages)
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-          tag_name: ${{ github.run_number }}
-          tag_message: 'Deployment ${{ github.ref_name }}'
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      #- name: Deploy para ambiente de testes (GitHub Pages)
+      #  uses: peaceiris/actions-gh-pages@v3
+      #  with:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #    publish_dir: ./build
+      #    tag_name: ${{ github.run_number }}
+      #    tag_message: 'Deployment ${{ github.ref_name }}'
