@@ -1,5 +1,6 @@
 {
   "name": "desafio-santander",
+  "homepage": "https://kaiorocha.github.io/desafio-devops-santander",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
